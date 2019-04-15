@@ -1,0 +1,41 @@
+.createAccountText{
+	color: DarkBlue;
+	font-size: 30px;
+	font-weight: 200;
+}
+
+.register-padding-right {
+	padding-right: 8px;
+}
+
+input, label {
+    display:block;
+}
+
+.mycustomspace{
+	padding-right:15px;
+}
+
+.labelfnln{
+	width: 214px;
+	height: 32px;
+}
+
+.label2{
+	width: 444px;
+	height: 32px;
+}
+
+body{
+	background: white;
+}
+
+.wideInput{
+    text-align: left;
+    padding-left:0;
+    padding-top:0;
+    padding-bottom:0.4em;
+    padding-right: 0.4em;
+    width: 400px;
+    height: 200px;
+}
