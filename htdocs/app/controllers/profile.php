@@ -82,8 +82,8 @@ class Profile extends Controller{
                     window.location.href=('details');
                 </script>
                 <?php
-            }   
-            /*         
+            }  
+            /*       
             else{
                 ?>
                 <script>

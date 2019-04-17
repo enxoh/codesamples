@@ -33,7 +33,7 @@
                 <div class="input-group">
                     <div class = "col-xs-4 mycustomspace">
                     	<label for="code">Announcement Image</label>
-                		<input type="file" name="img"/>     	
+                		<input type="file" name="img" required/>     	
                		</div>
                     <div class="col-xs-4">
                     	<!--<label>&nbsp<input type="submit" name="Sumbit" id"Submit" value="Upload" /></label>		-->				

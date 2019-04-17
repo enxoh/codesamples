@@ -10,6 +10,8 @@ class Admin extends Controller{
         }
 	}
 
+    // --------------------------- Products --------------------------- //   
+
     //Add products to database
 	function addProducts(){
 
@@ -64,7 +66,10 @@ class Admin extends Controller{
         }
 	}
 
-    // Create an announcement
+    // -------------------------- End of Products -------------------------- //
+
+    // --------------------------- Announcements --------------------------- //
+
     function createAnnouncement(){
         if(!LoginCore::isAdmin()){
             $user = $this->model('User');
@@ -77,6 +82,7 @@ class Admin extends Controller{
             $announcement = $this->model('Announcement');
             $announcement->announcement_name = $_POST['Announcement_Name'];
             $announcement->announcement_message = $_POST['Announcement_Msg'];
+            //$announcement->announcement_date = date("Y-m-d");
 
             // Image upload for annoncement
             $possible_extensions = array('gif', 'png', 'jpg', 'jpeg'); // allowed extension
@@ -96,17 +102,22 @@ class Admin extends Controller{
             if(in_array($file_convertedExtension, $possible_extensions)){
                 $file_saveDestination = getcwd().'/images/announcements/' . $uniq_announcementImg;    
                 move_uploaded_file($file_tempDir, $file_saveDestination);
+                $announcement->announcement_image = $uniq_announcementImg;
             }
             else{
-                echo "This type of file extension is not allowed.";
+                 ?>
+                    <script>
+                        alert("An error has occured");
+                       // window.location.href=('index');
+                    </script>
+                <?php
             }
             
             
-            $announcement->announcement_image = $uniq_announcementImg;
+            //$announcement->announcement_image = $uniq_announcementImg;
             $announcement->insertAnnouncement();
-            echo 'test';
-            //var_dump($announcement);
-            //header('location:/admin/index');
+
+            header('location:/admin/index');
 
         }
         else{
@@ -114,13 +125,38 @@ class Admin extends Controller{
         }
     }
 
-    //View Announcements
+    // View Announcements
     function announcements(){
 
         if(!LoginCore::isAdmin()){
             $this->view('home/index');
         }
-        $this->view('Admin/viewAnnouncements');
+     
+        // Pass data to the view
+        $announcements = $this->model('Announcement');  
+        $announcements = $announcements->selectAll();
+        $data = (array) $announcements;
+
+        $this->view('Admin/viewAnnouncements', $data);
     }
+
+    // Delete Annoucements
+    function deleteAnnouncement($id){
+
+        if(!LoginCore::isAdmin()){
+            $this->view('home/index');
+        }
+
+        if(isset($_GET['id'])){
+            
+            $announcements = $this->model('Announcement');
+            $id = $_GET['id'] ;           
+            $announcements->deleteAnnouncement($id);
+
+            header('location:/admin/announcements');
+        }
+    }
+
+    // ---------------------- End of Announcements ---------------------- //
 }
 ?>

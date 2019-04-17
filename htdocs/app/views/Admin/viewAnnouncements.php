@@ -14,6 +14,34 @@
 
                 <div>
                     <h1 class="createAccountText">Announcements</h1>
+                    <br>
+                </div>
+
+                <!----------- Table to display all announcements ----------->
+                <div>
+                    <table border="2px" style="width:100%" cellpadding="10px" cellspacing="10px">
+                        <tr>
+                            <th>Name</th>
+                            <th>Message</th>                            
+                            <th style="padding-left: 20px">Modify</th>
+                        </tr>
+                        <?php 
+                        // Create a table row for each
+                        foreach($data as $row) {
+                        
+                        ?>
+                        <tr>
+                            <td><?php echo $row['announcement_name'];?></td>
+                            <td><?php echo $row['announcement_message'];?></td>
+                            <!--<td><?php echo $row['announcement_date'];?></td>-->
+                            <td width="11%">                              
+                                <a href="../admin/deleteAnnouncement?id=<?=$row['announcement_id'];?>" onclick="return confirm('Are you sure you want to delete this announcement?')" style="padding-left: 16px">Delete</a>
+                            </td>
+                        </tr>
+                        <?php
+                         }
+                        ?>
+                    </table>
                 </div>
             </form>
         </div>
