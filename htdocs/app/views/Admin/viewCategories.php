@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Announcements</title>
+        <title>Categories</title>
         <link rel="stylesheet" type="text/css" href="/css/style.css">  
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -13,7 +13,7 @@
         <form action='' method="post" enctype="multipart/form-data">
 
                 <div>
-                    <h1 class="createAccountText">Announcements</h1>
+                    <h1 class="createAccountText">Categories</h1>
                     <br>
                 </div>
 
@@ -23,8 +23,7 @@
                         <thead class="thead-dark">
                         <tr>
                             <th>Name</th>
-                            <th>Message</th>          
-                            <th>Date</th>                  
+                            <th>Description</th>                          
                             <th style="padding-left: 20px">Modify</th>
                         </tr>
                         <?php 
@@ -33,18 +32,17 @@
                         
                         ?>
                         <tr>
-                            <td><?php echo $row['announcement_name'];?></td>
-                            <td><?php echo $row['announcement_message'];?></td>
-                            <td><?php echo $row['date_added'];?></td>
-                            <!--<td><?php echo $row['announcement_date'];?></td>-->
+                            <td><?php echo $row['category_name'];?></td>
+                            <td><?php echo $row['category_description'];?></td>
                             <td width="11%">                              
-                                <a href="../admin/deleteAnnouncement?id=<?=$row['announcement_id'];?>" onclick="return confirm('Are you sure you want to delete this announcement <?php echo $row['announcement_name'];?>?')" style="padding-left: 16px">Delete</a>
+                                <a href="../admin/deleteCategory?id=<?=$row['category_id'];?>" onclick="return confirm('Are you sure you want to delete this category <?php echo $row['category_name'];?>?')" style="padding-left: 16px">Delete</a>
                             </td>
                         </tr>
                         <?php
                          }
                         ?>
                     </table>
+                    <a href="../admin/addCategory" class="btn btn-primary" role="button">Add Category</a>
                     <a href="../admin/index" class="btn btn-dark" role="button">Back to Admin Control Center</a>
                 </div>
             </form>

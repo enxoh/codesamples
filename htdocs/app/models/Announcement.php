@@ -14,22 +14,23 @@ class Announcement extends Model{
     }
 
     public function selectAll(){
-    	$stmt = $this->_connection->prepare("SELECT * FROM announcement ORDER BY announcement_id ASC");
+    	$stmt = $this->_connection->prepare("SELECT * FROM announcement ORDER BY date_added ASC");
     	$stmt->execute();
     	return $results = $stmt->fetchAll();
     }
 
 	public function insertAnnouncement(){
+        /*
 		$stmt = $this->_connection->prepare("INSERT INTO announcement(announcement_name, announcement_message, announcement_image) VALUES (:announcement_name, :announcement_message, :announcement_image)");
 		$stmt->execute(['announcement_name' => $this->announcement_name, 'announcement_message' => $this->announcement_message, 'announcement_image' => $this->announcement_image]);		
-		return $stmt->rowCount();
+		return $stmt->rowCount();*/
 
-		/* WITH DATE
-		$stmt = $this->_connection->prepare("INSERT INTO announcement(announcement_name, announcement_message, announcement_image, announcement_date) VALUES (:announcement_name, :announcement_message, :announcement_image, announcement_date)");
+		// WITH DATE
+		$stmt = $this->_connection->prepare("INSERT INTO announcement(announcement_name, announcement_message, announcement_image, date_added) VALUES (:announcement_name, :announcement_message, :announcement_image, :date_added)");
 		$stmt->execute(['announcement_name' => $this->announcement_name, 'announcement_message' => $this->announcement_message, 'announcement_image' => $this->announcement_image,
-			'announcement_date' => $this->announcement_date]);		
+			'date_added' => $this->date_added]);		
 		return $stmt->rowCount();
-		*/
+		
     }
 
     public function deleteAnnouncement($announcement_id){

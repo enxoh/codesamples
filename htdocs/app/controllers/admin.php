@@ -15,12 +15,9 @@ class Admin extends Controller{
     //Add products to database
 	function addProducts(){
 
-        if(LoginCore::isAdmin()){
-            $user = $this->model('User');
-            $current_User = $user->getUser($_SESSION['username']);
-            $data =  (array) $current_User;
-            $this->view('Admin/addProducts',$data);
-        }
+        if(!LoginCore::isAdmin()){
+            return header('home/index');
+        }     
 
         if(isset($_POST['action'])){
         	$product = $this->model('Products');
@@ -53,20 +50,190 @@ class Admin extends Controller{
         	}
         	else{
         		echo "This type of file extension is not allowed.";
-        	}
-			
+        	}			
         	
 			$product->product_image = $file_uniq;
+            $product->insert_date = date('Y-m-d H:i:s');
             $product->insert();
-            header('location:/admin/index');
+            header('location:/admin/viewProducts');
 
         }
         else{
-        	$this->view('Admin/addProducts');
+            $categoryList = $this->model('Categories');  
+            $categoryList = $categoryList->selectAllCategories();
+            $data = (array) $categoryList;
+
+        	$this->view('Admin/addProducts', $data);
         }
 	}
 
+    // View all products 
+    function viewProducts(){
+
+        if(!LoginCore::isAdmin()){
+            return header('home/index');
+        }  
+     
+        // Pass data to the view
+        $products = $this->model('Products');  
+        $products = $products->selectAllProducts();
+        $data = (array) $products;
+
+        $this->view('Admin/viewProducts', $data);
+
+    }
+
+    // Edit selected product
+    function editProduct(){
+
+        if(!LoginCore::isAdmin()){
+            $this->view('home/index');
+        }        
+        
+        // If the product ID is set
+        if(isset($_GET['id'])){            
+            $products = $this->model('Products');
+            $id = $_GET['id'] ;           
+            $theProduct = $products->getProduct($id);
+
+            if(isset($_POST['action'])){
+                
+                $theProduct->product_name = $_POST['Product_Name'];
+                $theProduct->category = $_POST['Product_Category'];
+                $theProduct->product_description = $_POST['Product_Description'];
+                $theProduct->product_quantity = $_POST['Product_Quantity'];
+                $theProduct->product_status = $_POST['Product_Status'];
+                $theProduct->product_price = $_POST['Product_Price'];
+                $theProduct->sale_price = $_POST['Product_Sale'];   
+
+                $theProduct->editProduct();
+                
+                // Notification
+                ?>
+                <script>
+                    alert("Product updated!");
+                    window.location.href=('viewProducts');
+                </script>
+                <?php
+            }  
+
+            $data['product'] = (array) $theProduct;     
+
+            $categoryList = $this->model('Categories');  
+            $categoryList = $categoryList->selectAllCategories();
+            $data['category'] = (array) $categoryList;              
+
+            $this->view('Admin/editProduct', $data);
+        }
+    }
+
+    // Delete selected product
+    function deleteProduct($id){
+
+        if(!LoginCore::isAdmin()){
+            return header('home/index');
+        }  
+
+        if(isset($_GET['id'])){            
+            $products = $this->model('Products');
+            $id = $_GET['id'] ;           
+            $products->deleteSelectedProduct($id);
+
+            header('location:/admin/viewProducts');
+        }
+
+    }
+
     // -------------------------- End of Products -------------------------- //
+
+    // ---------------------------- Categories ----------------------------- //
+
+    // View all categories
+    function category(){
+        if(!LoginCore::isAdmin()){
+            $user = $this->model('User');
+            $current_User = $user->getUser($_SESSION['username']);
+            $this->view('home/index');
+        }
+
+        // Pass data to the view
+        $categoryList = $this->model('Categories');  
+        $categoryList = $categoryList->selectAllCategories();
+        $data = (array) $categoryList;
+
+        $this->view('Admin/viewCategories', $data);
+    }
+
+    // Create category
+    function addCategory(){
+        if(!LoginCore::isAdmin()){
+            $user = $this->model('User');
+            $current_User = $user->getUser($_SESSION['username']);
+            
+            $this->view('home/index');
+        }
+
+        if(isset($_POST['action'])){
+            $categoryList = $this->model('Categories'); 
+            $categoryList->category_name = $_POST['Category_name'];
+            $categoryList->category_description = $_POST['Category_description'];            
+
+            // Image upload for annoncement
+            $possible_extensions = array('gif', 'png', 'jpg', 'jpeg'); // allowed extension
+
+            $file = $_FILES['img']; //get file
+            $file_name = $_FILES['img']['name']; //get file name
+            $file_tempDir = $_FILES['img']['tmp_name']; // temp name
+            $file_size = $_FILES['img']['size']; // file size
+            $file_errorMsg = $_FILES['img']['error']; // error msg
+            $file_type = $_FILES['img']['type']; //file type
+            $file_convertedExtension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION)); // to lower to avoid upper case extensions
+
+            //Allow files to have the same name
+            $uniq_categoryImg = uniqid('', true). "." . $file_convertedExtension;
+
+            // Make sure extension is allowed*
+            if(in_array($file_convertedExtension, $possible_extensions)){
+                $file_saveDestination = getcwd().'/images/categories/' . $uniq_categoryImg;    
+                move_uploaded_file($file_tempDir, $file_saveDestination);
+                $categoryList->category_image = $uniq_categoryImg;
+            }
+            else{
+                 ?>
+                    <script>
+                        alert("An error has occured");
+                    </script>
+                <?php
+            }            
+            
+            $categoryList->insertCategory();
+
+            header('location:/admin/category');
+
+        }
+        else{
+            $this->view('Admin/addCategory');
+        }
+    }
+
+    // Delete Category
+    function deleteCategory($id){
+
+        if(!LoginCore::isAdmin()){
+            return header('home/index');
+        }  
+
+        if(isset($_GET['id'])){
+            
+            $category = $this->model('Categories');
+            $id = $_GET['id'] ;           
+            $category->deleteSelectedCategory($id);
+
+            header('location:/admin/category');
+        }
+    }
+
+    // ------------------------- End of Categories ------------------------- //
 
     // --------------------------- Announcements --------------------------- //
 
@@ -115,6 +282,7 @@ class Admin extends Controller{
             
             
             //$announcement->announcement_image = $uniq_announcementImg;
+            $announcement->date_added = date('Y-m-d H:i:s');
             $announcement->insertAnnouncement();
 
             header('location:/admin/index');
@@ -129,8 +297,8 @@ class Admin extends Controller{
     function announcements(){
 
         if(!LoginCore::isAdmin()){
-            $this->view('home/index');
-        }
+            return header('home/index');
+        }  
      
         // Pass data to the view
         $announcements = $this->model('Announcement');  
@@ -144,8 +312,8 @@ class Admin extends Controller{
     function deleteAnnouncement($id){
 
         if(!LoginCore::isAdmin()){
-            $this->view('home/index');
-        }
+            return header('home/index');
+        }  
 
         if(isset($_GET['id'])){
             
@@ -158,5 +326,34 @@ class Admin extends Controller{
     }
 
     // ---------------------- End of Announcements ---------------------- //
+
+    // --------------------------- Newsletters -------------------------- //
+
+    function newsletter(){
+
+        if(!LoginCore::isAdmin()){
+            return header('home/index');
+        }  
+     
+        // Pass data to the view
+        $newsletterList = $this->model('User');  
+        $newsletterList = $newsletterList->getMailList();
+        $data = (array) $newsletterList;
+
+        $this->view('Admin/newsletterList', $data);
+    }
+
+    function createNewsletter(){
+        $this->view('Admin/newNewsletter');
+
+        if(isset($_POST['action'])){
+            mail($_POST['Email_title'], $_POST['Email_title'], message);
+        }
+        
+
+        //mail('itsenzodb@gmail.com', 'Sample Mail', 'Sample Content', 'From: stenbestbuy@gmail.com');
+    }
+
+    // ------------------------ End of Newsletter ----------------------- //
 }
 ?>

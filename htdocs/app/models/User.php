@@ -23,6 +23,12 @@ class User extends Model
         return $stmt->fetch();
     }
 
+    public function getMailList(){
+        $stmt = $this->_connection->prepare("SELECT * FROM User WHERE newsletter_status = 1 ORDER BY first_name ASC");        
+        $stmt->execute();
+        return $results = $stmt->fetchAll();
+    }
+
     public function insert(){
         $stmt = $this->_connection->prepare("INSERT INTO User(username, password_hash, first_name, last_name, email, newsletter_status) VALUES (:username, :password_hash, :first_name, :last_name, :email, :newsletter_status)");
         $stmt->execute(['username' => $this->username, 'password_hash' => $this->password_hash, 'first_name' => $this->first_name, 'last_name' => $this->last_name, 'email' => $this->email, 'newsletter_status' => $this->newsletter_status]);

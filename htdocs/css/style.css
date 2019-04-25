@@ -1,8 +1,12 @@
-
-
 .createAccountText{
 	color: DarkBlue;
 	font-size: 30px;
+	font-weight: 200;
+}
+
+.recentlyAddedText{
+	color: DarkBlue;
+	font-size: 25px;
 	font-weight: 200;
 }
 
@@ -41,3 +45,4 @@ body{
     width: 400px;
     height: 200px;
 }
+

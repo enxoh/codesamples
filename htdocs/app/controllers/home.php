@@ -5,7 +5,22 @@ class Home extends Controller
     // Main page where the user lands (non-dependent on session)
     public function index($name = '')
     {
-        $this->view('Home/Index');
+        // Get all announcements
+        $announcements = $this->model('Announcement');  
+        $announcements = $announcements->selectAll();
+        $data['announcements'] = (array) $announcements;
+
+        // Get all products
+        $products = $this->model('Products');  
+        $products = $products->selectAllProducts();
+        $data['products'] = (array) $products;
+
+        // Recent products for recently added        
+        $recentProducts = $this->model('Products');  
+        $recentProducts = $recentProducts->getLatestProducts();
+        $data['recentProducts'] = (array) $recentProducts;        
+
+        $this->view('Home/Index', $data);
     }
 
     public function register()
@@ -39,7 +54,6 @@ class Home extends Controller
             than the user will automatically be redirected to the home page.
         */
         if(!$_SESSION){
-            $this->view('Home/Login');
 
             if(isset($_POST['action'])){
                 $user = $this->model('User');
@@ -54,9 +68,10 @@ class Home extends Controller
                 else{
                     $this->view('Home/Login');
                 }
+            }else{
+                $this->view('Home/Login');
             }
-        }
-        else{
+        }else{
             header('location:/Home');
         }
     }
