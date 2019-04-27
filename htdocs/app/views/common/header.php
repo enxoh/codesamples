@@ -13,7 +13,7 @@
 <nav class="navbar navbar-light fixed-top" style="background-color: #003b64;">
     <div class="container">
       <a class="navbar-brand" href="/home/index">
-        <img src="../images/sten.png" width="60" height="50" class="d-inline-block align-top" alt=""></a>
+        <img src="/images/sten.png" width="60" height="50" class="d-inline-block align-top" alt=""></a>
     	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <form action='' method="post">
     	      <li class="nav-item active">
@@ -77,8 +77,8 @@
                         <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <h6 style="padding-left: 15px">My account</h6>
-                        <a class="dropdown-item" href="../profile/details">My Profile</a>
-                        <a class="dropdown-item" href="../member/index">Membership</a>
+                        <a class="dropdown-item" href="/profile/details">My Profile</a>
+                        <a class="dropdown-item" href="/member/index">Membership</a>
 
                     </div>
                 </li>
@@ -93,7 +93,7 @@
                     <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Admin</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <h6 style="padding-left: 15px">Admin Restricted</h6>
-                        <a class="dropdown-item" href="../admin/index">Administration Page</a>
+                        <a class="dropdown-item" href="/admin/index">Administration Page</a>
                     </div>
                 </li>
                 <?php endif; ?>

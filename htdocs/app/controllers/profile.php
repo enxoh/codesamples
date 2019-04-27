@@ -55,8 +55,7 @@ class Profile extends Controller{
         if(LoginCore::isLoggedIn()){
             $user = $this->model('User');
             $current_User = $user->getUser($_SESSION['username']);
-            $data =  (array) $current_User;
-            $this->view('Profile/Edit',$data);
+            $data =  (array) $current_User;            
         }
 
         if(isset($_SESSION['user_id'])){
@@ -83,6 +82,7 @@ class Profile extends Controller{
                 </script>
                 <?php
             }  
+            $this->view('Profile/Edit',$data);
             /*       
             else{
                 ?>

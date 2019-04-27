@@ -10,6 +10,11 @@ class Home extends Controller
         $announcements = $announcements->selectAll();
         $data['announcements'] = (array) $announcements;
 
+        // Get random categories
+        $randomcategories = $this->model('Categories');  
+        $randomcategories = $randomcategories->selectRandomCategory();
+        $data['randomCategories'] = (array) $randomcategories;
+
         // Get all products
         $products = $this->model('Products');  
         $products = $products->selectAllProducts();

@@ -43,8 +43,8 @@
                             <td><?php echo $row['product_description'];?></td>
                             <td><?php echo $row['product_quantity'];?></td>
                             <td><?php echo $row['product_status'];?></td>
-                            <td><?php echo $row['product_price'];?></td>
-                            <td><?php echo $row['sale_price'];?></td>
+                            <td><?php echo $row['product_price'];?>$</td>
+                            <td><?php echo $row['sale_price'];?>$</td>
                             <td><?php echo $row['insert_date'];?></td>
                             <td width="11%">  
                                 <a href="../admin/editProduct?id=<?=$row['product_id'];?>" name="">Edit</a>                                       

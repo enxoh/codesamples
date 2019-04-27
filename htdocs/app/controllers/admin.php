@@ -343,15 +343,40 @@ class Admin extends Controller{
         $this->view('Admin/newsletterList', $data);
     }
 
-    function createNewsletter(){
-        $this->view('Admin/newNewsletter');
+    function createNewsletter(){   
 
-        if(isset($_POST['action'])){
-            mail($_POST['Email_title'], $_POST['Email_title'], message);
+        $newsletterList = $this->model('User');  
+        $newsletterList = $newsletterList->getMailList();
+        $data = (array) $newsletterList;
+
+        // Get all email addresses for newsletter
+        foreach ($data as $row) {
+            $emails[] = $row['email'];                  
         }
-        
+        $toRecipients = implode(", ", $emails); //emails seperated        
 
-        //mail('itsenzodb@gmail.com', 'Sample Mail', 'Sample Content', 'From: stenbestbuy@gmail.com');
+        // Send the newsletter on action
+        if(isset($_POST['action'])){
+
+            // Send Mail
+            if(mail($toRecipients, $_POST['Email_subject'], $_POST['Email_body'])){
+                ?>
+                    <script>
+                        alert("Newsletter has been sent");
+                        window.location.href=('newsletter');
+                    </script>
+                <?php           
+            }
+            else{
+                ?>
+                    <script>
+                        alert("Something went wrong while sending newsletter!");
+                        window.location.href=('newsletter');
+                    </script>
+                <?php
+            }       
+        }
+        $this->view('Admin/newNewsletter'); 
     }
 
     // ------------------------ End of Newsletter ----------------------- //

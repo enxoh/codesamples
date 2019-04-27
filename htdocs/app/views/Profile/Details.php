@@ -2,6 +2,7 @@
     <html lang="en">
     <head>
         <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <title>Account Details</title>
     </head>
 
@@ -47,6 +48,9 @@
             </div>
 
             <div>
+                <br>
+                <a href="../paymentinfo/index" class="btn btn-outline-dark fa fa-credit-card">  Payment Options</a>
+                <br>
                 <br>
                 <a href="../profile/edit" class="btn btn-primary">Edit Profile</a>
                 <a href="../profile/changePassword" class="btn btn-primary">Change Password</a>

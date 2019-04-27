@@ -16,11 +16,13 @@
                     <h1 class="createAccountText">Send Newsletter</h1>
                 </div>
 
+                <!--
                 <div class="input-group">
                     <div class = "col-xs-4 mycustomspace">
-                        <label>Email Title<input type="text" required name="Email_title" class="form-control labelfnln"/></label>
+                        <label>Recipient<input type="text" required name="Email_Recipients" class="form-control labelfnln"/></label>
                     </div>
                 </div>
+                -->
 
                 <div class="row">
                   <div class="form-group col-xs-1 col-lg-5 ">
@@ -32,17 +34,9 @@
                 <div class="row">
                   <div class="form-group col-xs-1 col-lg-5 ">
                     <label for="code">Email Body</label>
-                      <textarea type="text" name="Email_body" required class="form-control input-normal label2">
+                      <textarea type="text" style="width: 600px; height: 200px" name="Email_body" required class="form-control input-normal label2">
                       </textarea>
                   </div>
-                </div>
-
-                <!-- Announcement image -->
-                <div class="input-group">
-                    <div class = "col-xs-4 mycustomspace">
-                    	<label for="code">Email Attachment</label>
-                		<input type="file" name="img" required/>     	
-               		</div>
                 </div>
 
 	            <div>

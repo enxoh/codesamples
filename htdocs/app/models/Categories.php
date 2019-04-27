@@ -31,6 +31,12 @@ class Categories extends Model{
         return $results = $stmt->fetchAll();
     }
 
+    public function selectRandomCategory(){
+        $stmt = $this->_connection->prepare("SELECT DISTINCT * FROM category ORDER BY RAND() LIMIT 6");
+        $stmt->execute();
+        return $results = $stmt->fetchAll();
+    }
+
     public function deleteSelectedCategory($category_id){
         $stmt = $this->_connection->prepare("DELETE FROM category WHERE category_id = :category_id");
         $stmt->execute(['category_id' => $category_id]);

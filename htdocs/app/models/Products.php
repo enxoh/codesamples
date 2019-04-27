@@ -50,7 +50,7 @@ class Products extends Model{
     */
 
     public function getLatestProducts(){
-        $stmt = $this->_connection->prepare("SELECT * FROM product ORDER BY insert_date DESC LIMIT 3");
+        $stmt = $this->_connection->prepare("SELECT * FROM product ORDER BY insert_date DESC LIMIT 6");
         $stmt->execute();
         return $results = $stmt->fetchAll();
     }
@@ -75,6 +75,12 @@ class Products extends Model{
 
     }
 
+    //For product details page
+    public function getProductDetails($product_id){
+        $stmt = $this->_connection->prepare("SELECT * FROM product WHERE product_id = :product_id");
+        $stmt->execute(['product_id' => $product_id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, "Products");
+        return $stmt->fetch();
+    }
 }
-
 ?>
